@@ -1,4 +1,13 @@
-#include <WiFi.h> //may be included in config.h already
+/******
+Adrian: Hello Wi-Cat team. This is the main source code for our project. 
+
+7/18/2019 This code currently contains a mismash of code from examples, and probably will not compile into anything useful. 
+There are a lot of comments about how different lines of code pertain to the different examples. Source code to the examples is
+provided in the GitHub.
+
+******/
+
+// #include <WiFi.h> //may be included in config.h already see #include "AdafruitIO_WiFi.h"
 #include "time.h"  
 #include "config.h"
 
@@ -24,13 +33,14 @@ int minutes;
 int hours;
 
 // create an instance of the servo class
-Servo servo;
+Servo servo;  // NEED STEPPER CLASS?
 
 // set up the 'servo' and 'schedule_input'  and 'serving_size' feeds
 //
 AdafruitIO_Feed *servo_feed = io.feed("servo"); 
 AdafruitIO_Feed *schedule_feed = io.feed("schedule");
 AdafruitIO_Feed *serving_feed = io.feed("serving");
+AdafruitIO_Feed *toggle_feed = io.feed("toggle");
 
 
 void printLocalTime()
@@ -87,18 +97,73 @@ void setup()
   }
   // Serial.println(" CONNECTED"); // This is from ECE_212_Time_Server.ino
 
+//Begin Loop for Adafruit IO connection
+void loop() { 
 
+  // io.run(); is required for all sketches.
+  // it should always be present at the top of your loop
+  // function. it keeps the client connected to
+  // io.adafruit.com, and processes any incoming data.
+  io.run();
+
+}
+ 
+// this function is called whenever a 'servo' message
+// is received from Adafruit IO. it was attached to
+// the servo feed in the setup() function above.
+
+void servoControl(AdafruitIO_Data *data) {
+
+  // make sure we don't exceed the limit
+  // of the servo. the range is from 0
+  // to 180. 
   
+  /* 
+  Adrian: this is where I will program the serving size
+  modeled after adafruitio_16_servo.ino
+  */
+  if(serving == true) {
+    // convert the data to integer
+    int angle = data->toInt();
+     
+/*
+  int serving = data->toInt();
+    //serving dictates how long the stepper will run in seconds
+  
+  
+*/
+    if(angle < 0)
+        angle = 0;
+      else if(angle > 180)
+        angle = 180;
+    servo.write(angle);
+}
+
   //init and get the time
   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
   printLocalTime();
 
   //disconnect WiFi as it's no longer needed
-  WiFi.disconnect(true);
-  WiFi.mode(WIFI_OFF);
+  //WiFi.disconnect(true);
+  //WiFi.mode(WIFI_OFF);
 }
 
 //https://www.arduino.cc/reference/en/language/structure/sketch/loop/
+void toggleControl(AdafruitIO_Data *data) {  
+  
+  // handle the toggle on the Adafruit IO Dashboard
+  String toggleString = data->toString();
+  if(toggleString == String("ON")) {
+    Serial.println("ON");
+    toggle = true;
+  } 
+  else {
+    Serial.println("OFF");
+    toggle = false;
+  }
+  
+}
+
 
 void loop() //arduino specific function for a continuous input checking loop
 {
