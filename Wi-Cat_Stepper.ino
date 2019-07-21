@@ -99,18 +99,15 @@ void loop() {
 
 void stepperControl(AdafruitIO_Data *data) {
   
-  if(serving == true) {
+  if(toggle == true) {
     // convert the data to integer
-    int angle = data->toInt();  
-/*
-    int serving = data->toInt();
-    //serving dictates how long the stepper will run in seconds
-*/
-    if(angle < 0)
-        angle = 0;
-      else if(angle > 180)
-        angle = 180;
-    servo.write(angle);
+    int serving = data->toInt();  
+    
+    if(serving < 0)
+        serving = 0;
+      else if(serving > 200)
+        angle = 200;
+    stepper.write(serving);
     }
 
   //init and get the time
