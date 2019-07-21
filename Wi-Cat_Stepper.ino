@@ -11,6 +11,7 @@ provided in the GitHub.
 const char* ntpServer = "pool.ntp.org";
 const long  gmtOffset_sec = 3600;
 const int   daylightOffset_sec = 3600;
+const int MAX_SERVING;
 
 const int stepsPerRevolution = 2048;  // change this to fit the number of steps per revolution
 // for your motor
@@ -88,7 +89,7 @@ void loop() {
   if (digitalRead(buttonApin) == LOW)
   {
   // step one revolution  in one direction:
-  Serial.println("clockwise");
+  //Serial.println("clockwise");
   myStepper.step(stepsPerRevolution/4);
   delay(500);
 }
@@ -105,8 +106,8 @@ void stepperControl(AdafruitIO_Data *data) {
     
     if(serving < 0)
         serving = 0;
-      else if(serving > 200)
-        angle = 200;
+      else if(serving > MAX_SERVING)
+        serving = MAX_SERVING;
     stepper.write(serving);
     }
 
