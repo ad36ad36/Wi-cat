@@ -21,8 +21,6 @@ int buttonApin = 21; //assign button GPIO pin
 
 Stepper myStepper(stepsPerRevolution, 14, 15, 32, 33); 
 
-
-
 AdafruitIO_Feed *stepper_feed = io.feed("stepper"); 
 AdafruitIO_Feed *schedule_feed = io.feed("schedule");
 AdafruitIO_Feed *serving_feed = io.feed("serving");
