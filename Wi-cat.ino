@@ -11,6 +11,7 @@ provided in the GitHub.
 #include "time.h"  
 #include "config.h"
 
+/* //Code for Servo
 #if defined(ARDUINO_ARCH_ESP32)
   // ESP32Servo Library (https://github.com/madhephaestus/ESP32Servo)
   // installation: library manager -> search -> "ESP32Servo"
@@ -18,22 +19,29 @@ provided in the GitHub.
 #else
   #include <Servo.h>
 #endif
-
+*/
 // pin used to control the servo
-#define SERVO_PIN 27
+//#define SERVO_PIN 27   
 
-const char* ssid       = "";  //may be included in config.h already
-const char* password   = "";  //may be included in config.h already
+//const char* ssid       = "";  //may be included in config.h already
+//const char* password   = "";  //may be included in config.h already
 
 const char* ntpServer = "pool.ntp.org";
 const long  gmtOffset_sec = 3600;
 const int   daylightOffset_sec = 3600;
 
+const int stepsPerRevolution = 2048;  // change this to fit the number of steps per revolution
+// for your motor
+
 int minutes;
 int hours;
+int buttonApin = 21; //assign button GPIO pin
 
-// create an instance of the servo class
-Servo servo;  // NEED STEPPER CLASS?
+
+// Servo servo;  // create an instance of the servo class
+Stepper myStepper(stepsPerRevolution, 14, 15, 32, 33); 
+
+
 
 // set up the 'servo' and 'schedule_input'  and 'serving_size' feeds
 //
@@ -57,12 +65,17 @@ void printLocalTime()
 
 void setup()
 {
-  Serial.begin(115200); // Starts serial connection
+  pinMode(buttonApin, INPUT_PULLUP); //assign button pin as an input
+ // set the speed at 60 rpm:
+  myStepper.setSpeed(10);
+  // initialize the serial port:
+  Serial.begin(9600);
+  
+  // Serial.begin(115200); // Starts serial connection //from Servo_ECE112
   
   while(! Serial); // Waits for serial monitor to open
   
-  servo.attach(SERVO_PIN); // See config.h for SERVO_PIN
- 
+  // servo.attach(SERVO_PIN); // See config.h for SERVO_PIN
   /* //THIS CODE IS PROBABLY INCLUDED IN config.h THROUGH AdafruitIO_WiFi io() function or class?
   //connect to WiFi
   Serial.printf("Connecting to %s ", ssid);
@@ -105,7 +118,13 @@ void loop() {
   // function. it keeps the client connected to
   // io.adafruit.com, and processes any incoming data.
   io.run();
-
+  //run only when the button has been pressed
+  if (digitalRead(buttonApin) == LOW)
+  {
+  // step one revolution  in one direction:
+  Serial.println("clockwise");
+  myStepper.step(stepsPerRevolution/4);
+  delay(500);
 }
  
 // this function is called whenever a 'servo' message
@@ -129,8 +148,6 @@ void servoControl(AdafruitIO_Data *data) {
 /*
   int serving = data->toInt();
     //serving dictates how long the stepper will run in seconds
-  
-  
 */
     if(angle < 0)
         angle = 0;
