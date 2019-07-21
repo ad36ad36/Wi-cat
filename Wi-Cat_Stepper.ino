@@ -5,24 +5,8 @@ There are a lot of comments about how different lines of code pertain to the dif
 provided in the GitHub.
 ******/
 
-// #include <WiFi.h> //may be included in config.h already see #include "AdafruitIO_WiFi.h"
 #include "time.h"  
-#include "config.h"
-
-/* //Code for Servo
-#if defined(ARDUINO_ARCH_ESP32)
-  // ESP32Servo Library (https://github.com/madhephaestus/ESP32Servo)
-  // installation: library manager -> search -> "ESP32Servo"
-  #include <ESP32Servo.h>
-#else
-  #include <Servo.h>
-#endif
-*/
-// pin used to control the servo
-//#define SERVO_PIN 27   
-
-//const char* ssid       = "";  //may be included in config.h already
-//const char* password   = "";  //may be included in config.h already
+#include "config.h" // Configures WiFi connection. Edit for your Network settings. 
 
 const char* ntpServer = "pool.ntp.org";
 const long  gmtOffset_sec = 3600;
@@ -35,15 +19,11 @@ int minutes;
 int hours;
 int buttonApin = 21; //assign button GPIO pin
 
-
-// Servo servo;  // create an instance of the servo class
 Stepper myStepper(stepsPerRevolution, 14, 15, 32, 33); 
 
 
 
-// set up the 'servo' and 'schedule_input'  and 'serving_size' feeds
-//
-AdafruitIO_Feed *servo_feed = io.feed("servo"); 
+AdafruitIO_Feed *stepper_feed = io.feed("stepper"); 
 AdafruitIO_Feed *schedule_feed = io.feed("schedule");
 AdafruitIO_Feed *serving_feed = io.feed("serving");
 AdafruitIO_Feed *toggle_feed = io.feed("toggle");
@@ -72,16 +52,6 @@ void setup()
   // Serial.begin(115200); // Starts serial connection //from Servo_ECE112
   
   while(! Serial); // Waits for serial monitor to open
-  
-  // servo.attach(SERVO_PIN); // See config.h for SERVO_PIN
-  /* //THIS CODE IS PROBABLY INCLUDED IN config.h THROUGH AdafruitIO_WiFi io() function or class?
-  //connect to WiFi
-  Serial.printf("Connecting to %s ", ssid);
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
-      delay(500);
-      Serial.print(".");
-   */
   
   // connect to io.adafruit.com
   Serial.print("Connecting to Adafruit IO");
@@ -129,22 +99,13 @@ void loop() {
 // is received from Adafruit IO. it was attached to
 // the servo feed in the setup() function above.
 
-void servoControl(AdafruitIO_Data *data) {
-
-  // make sure we don't exceed the limit
-  // of the servo. the range is from 0
-  // to 180. 
+void stepperControl(AdafruitIO_Data *data) {
   
-  /* 
-  Adrian: this is where I will program the serving size
-  modeled after adafruitio_16_servo.ino
-  */
   if(serving == true) {
     // convert the data to integer
-    int angle = data->toInt();
-     
+    int angle = data->toInt();  
 /*
-  int serving = data->toInt();
+    int serving = data->toInt();
     //serving dictates how long the stepper will run in seconds
 */
     if(angle < 0)
@@ -152,7 +113,7 @@ void servoControl(AdafruitIO_Data *data) {
       else if(angle > 180)
         angle = 180;
     servo.write(angle);
-}
+    }
 
   //init and get the time
   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
