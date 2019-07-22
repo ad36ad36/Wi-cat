@@ -11,7 +11,7 @@ provided in the GitHub.
 const char* ntpServer = "pool.ntp.org";
 const long  gmtOffset_sec = 3600;
 const int   daylightOffset_sec = 3600;
-const int MAX_SERVING;
+const int   MAX_SERVING;
 
 const int stepsPerRevolution = 2048;  // change this to fit the number of steps per revolution
 // for your motor
@@ -26,19 +26,6 @@ AdafruitIO_Feed *stepper_feed = io.feed("stepper");
 AdafruitIO_Feed *schedule_feed = io.feed("schedule");
 AdafruitIO_Feed *serving_feed = io.feed("serving");
 AdafruitIO_Feed *toggle_feed = io.feed("toggle");
-
-
-void printLocalTime()
-{
-  struct tm timeinfo;
-  if(!getLocalTime(&timeinfo)){
-    Serial.println("Failed to obtain time");
-    return;
-  }
-  Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
-  minutes = timeinfo.tm_min;  
-  hours = timeinfo.tm_hour; 
-}
 
 void setup()
 {
@@ -92,6 +79,11 @@ void loop() {
   //Serial.println("clockwise");
   myStepper.step(stepsPerRevolution/4);
   delay(500);
+    
+    
+    
+  Serial.println(minutes);
+  Serial.println(hours);
 }
  
 // this function is called whenever a 'servo' message
@@ -135,10 +127,17 @@ void toggleControl(AdafruitIO_Data *data) {
   }
   
 }
-
-
-void loop() //arduino specific function for a continuous input checking loop
+  
+  void printLocalTime()
 {
-  Serial.println(minutes);
-  Serial.println(hours);
+  struct tm timeinfo;
+  if(!getLocalTime(&timeinfo)){
+    Serial.println("Failed to obtain time");
+    return;
+  }
+  Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
+  minutes = timeinfo.tm_min;  
+  hours = timeinfo.tm_hour; 
 }
+
+
