@@ -43,12 +43,12 @@ void setup()
   Serial.print("Connecting to Adafruit IO");
   io.connect();
   
-  // set up a message handler for the 'servo' feed.
+  // set up a message handler for the 'Stepper' feed.
   // the handleMessage function (defined below)
   // will be called whenever a message is
   // received from adafruit io.
   toggle_feed->onMessage(toggleControl);
-  servo_feed->onMessage(servoControl);
+  stepper_feed->onMessage(stepperControl);
   
     // wait for a connection
   while(io.status() < AIO_CONNECTED) {
