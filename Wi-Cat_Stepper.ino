@@ -11,7 +11,7 @@ provided in the GitHub.
 const char* ntpServer = "pool.ntp.org";
 const long  gmtOffset_sec = 3600;
 const int   daylightOffset_sec = 3600;
-const int   MAX_SERVING;
+const int   MAX_SERVING = 200; // make max serving corresponsd to the size of average bowl?
 
 const int stepsPerRevolution = 2048;  // change this to fit the number of steps per revolution
 // for your motor
@@ -26,7 +26,7 @@ Stepper myStepper(stepsPerRevolution, 14, 15, 32, 33);
 
 AdafruitIO_Feed *stepper_feed = io.feed("stepper"); 
 AdafruitIO_Feed *schedule_feed = io.feed("schedule");
-AdafruitIO_Feed *serving_feed = io.feed("serving");
+//AdafruitIO_Feed *serving_feed = io.feed("serving");
 AdafruitIO_Feed *toggle_feed = io.feed("toggle");
 
 void setup()
