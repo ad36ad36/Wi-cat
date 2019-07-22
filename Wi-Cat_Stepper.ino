@@ -102,16 +102,10 @@ void stepperControl(AdafruitIO_Data *data) {
         serving = 0;
       else if(serving > MAX_SERVING)
         serving = MAX_SERVING;
-    stepper.write(serving);
-    }
+    myStepper.write(serving);
+  }
 
-  //init and get the time
-  configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
-  printLocalTime();
 
-  //disconnect WiFi as it's no longer needed
-  //WiFi.disconnect(true);
-  //WiFi.mode(WIFI_OFF);
 }
 
 //https://www.arduino.cc/reference/en/language/structure/sketch/loop/
@@ -130,8 +124,7 @@ void toggleControl(AdafruitIO_Data *data) {
   
 }
   
-  void printLocalTime()
-{
+  void printLocalTime() {
   struct tm timeinfo;
   if(!getLocalTime(&timeinfo)){
     Serial.println("Failed to obtain time");
@@ -141,5 +134,14 @@ void toggleControl(AdafruitIO_Data *data) {
   minutes = timeinfo.tm_min;  
   hours = timeinfo.tm_hour; 
 }
+  
+  //init and get the time
+ // configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+  // printLocalTime();
+
+  //disconnect WiFi as it's no longer needed
+  //WiFi.disconnect(true);
+  //WiFi.mode(WIFI_OFF);
+  
 
 
