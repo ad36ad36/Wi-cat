@@ -19,6 +19,8 @@ const int stepsPerRevolution = 2048;  // change this to fit the number of steps 
 int minutes;
 int hours;
 int buttonApin = 21; //assign button GPIO pin
+bool toggle = false;
+
 
 Stepper myStepper(stepsPerRevolution, 14, 15, 32, 33); 
 
@@ -59,7 +61,7 @@ void setup()
     // we are connected
   Serial.println();
   Serial.println(io.statusText());
-  servo_feed->get();
+  stepper_feed->get();
   
   }
   // Serial.println(" CONNECTED"); // This is from ECE_212_Time_Server.ino
