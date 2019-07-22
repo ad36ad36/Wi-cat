@@ -70,13 +70,7 @@ void loop() {
   // function. it keeps the client connected to
   // io.adafruit.com, and processes any incoming data.
   io.run();
-  //run only when the button has been pressed
-  if (digitalRead(buttonApin) == LOW)
-  {
-  // step one revolution in one direction:
-  //Serial.println("clockwise");
-  myStepper.step(stepsPerRevolution/4);
-  delay(500);
+ 
 }
  
 // this function is called whenever a 'stepper' message
@@ -93,7 +87,7 @@ void stepperControl(AdafruitIO_Data *data) {
         serving = 0;
       else if(serving > MAX_SERVING)
         serving = MAX_SERVING;
-    myStepper.write(serving);
+    myStepper.step(serving);
   }
 
 
