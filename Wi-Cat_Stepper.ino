@@ -5,12 +5,15 @@ There are a lot of comments about how different lines of code pertain to the dif
 provided in the GitHub.
 ******/
 
-#include "time.h"  
+ 
 #include "config.h" // Configures WiFi connection. Edit for your Network settings. 
 
-const char* ntpServer = "pool.ntp.org";
+/* For Time Scheduled Servings
+#include "time.h" 
+const char* ntpServer = "pool.ntp.org"; 
 const long  gmtOffset_sec = 3600;
 const int   daylightOffset_sec = 3600;
+*/
 const int   MAX_SERVING = 200; // make max serving corresponsd to the size of average bowl?
 
 const int stepsPerRevolution = 2048;  // change this to fit the number of steps per revolution
@@ -18,7 +21,6 @@ const int stepsPerRevolution = 2048;  // change this to fit the number of steps 
 
 int minutes;
 int hours;
-int buttonApin = 21; //assign button GPIO pin
 bool toggle = false;
 
 
@@ -31,13 +33,10 @@ AdafruitIO_Feed *toggle_feed = io.feed("toggle");
 
 void setup()
 {
-  pinMode(buttonApin, INPUT_PULLUP); //assign button pin as an input
- // set the speed at 60 rpm:
-  myStepper.setSpeed(10);
-  // initialize the serial port:
-  Serial.begin(9600);
-  
+
+  myStepper.setSpeed(10);  // set the speed at 60 rpm:
   // Serial.begin(115200); // Starts serial connection //from Servo_ECE112
+  Serial.begin(9600);  // initialize the serial port:
   
   while(! Serial); // Waits for serial monitor to open
   
@@ -57,16 +56,13 @@ void setup()
     Serial.print(".");
     delay(500);
     }
-  
-    // we are connected
+  // we are connected
   Serial.println();
   Serial.println(io.statusText());
   stepper_feed->get();
   
   }
-  // Serial.println(" CONNECTED"); // This is from ECE_212_Time_Server.ino
 
-//Begin Loop for Adafruit IO connection
 void loop() { 
 
   // io.run(); is required for all sketches.
@@ -77,27 +73,22 @@ void loop() {
   //run only when the button has been pressed
   if (digitalRead(buttonApin) == LOW)
   {
-  // step one revolution  in one direction:
+  // step one revolution in one direction:
   //Serial.println("clockwise");
   myStepper.step(stepsPerRevolution/4);
   delay(500);
-    
-    
-    
-  Serial.println(minutes);
-  Serial.println(hours);
 }
  
-// this function is called whenever a 'servo' message
+// this function is called whenever a 'stepper' message
 // is received from Adafruit IO. it was attached to
-// the servo feed in the setup() function above.
+// the stepper feed in the setup() function above.
 
 void stepperControl(AdafruitIO_Data *data) {
   
   if(toggle == true) {
-    // convert the data to integer
-    int serving = data->toInt();  
     
+    int serving = data->toInt();      // convert the data to intege
+   
     if(serving < 0)
         serving = 0;
       else if(serving > MAX_SERVING)
