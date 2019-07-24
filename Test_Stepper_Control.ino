@@ -17,8 +17,8 @@
 //   - Adafruit Metro M4 Express AirLift Lite -> https://www.adafruit.com/product/4000
 //   - Adafruit AirLift Breakout -> https://www.adafruit.com/product/4201
 
-#define WIFI_SSID   ""
-#define WIFI_PASS   ""
+#define WIFI_SSID   "CenturyLink7376_5G"
+#define WIFI_PASS   "bf8d8ha73f64f"
 
 // uncomment the following line if you are using airlift
 // #define USE_AIRLIFT
@@ -64,7 +64,7 @@
 // AdafruitIO_Ethernet io(IO_USERNAME, IO_KEY);
 
  
-#include "config.h" // Configures WiFi connection. Edit for your Network settings. 
+//#include "config.h" // Configures WiFi connection. Edit for your Network settings. 
 
 /* For Time Scheduled Servings
 #include "time.h" 
@@ -167,23 +167,7 @@ void toggleControl(AdafruitIO_Data *data) {
   
 }
   
-  void printLocalTime() {
-  struct tm timeinfo;
-  if(!getLocalTime(&timeinfo)){
-    Serial.println("Failed to obtain time");
-    return;
-  }
-  Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
-  minutes = timeinfo.tm_min;  
-  hours = timeinfo.tm_hour; 
-}
-  
-  //init and get the time
- // configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
-  // printLocalTime();
 
-  //disconnect WiFi as it's no longer needed
-  //WiFi.disconnect(true);
-  //WiFi.mode(WIFI_OFF);
   
+
 
