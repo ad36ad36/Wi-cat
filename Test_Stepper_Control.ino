@@ -25,9 +25,6 @@
   AdafruitIO_WiFi io(IO_USERNAME, IO_KEY, WIFI_SSID, WIFI_PASS);
 #endif
 
- 
-//#include "config.h" // Configures WiFi connection. Edit for your Network settings. 
-
 
 const int   MAX_SERVING = 200; // make max serving corresponsd to the size of average bowl?
 
@@ -36,31 +33,22 @@ const int stepsPerRevolution = 2048;  // change this to fit the number of steps 
 
 bool toggle = false;
 
-
 Stepper myStepper(stepsPerRevolution, 14, 15, 32, 33); 
 
 AdafruitIO_Feed *stepper_feed = io.feed("stepper"); 
-AdafruitIO_Feed *schedule_feed = io.feed("schedule");
-//AdafruitIO_Feed *serving_feed = io.feed("serving");
 AdafruitIO_Feed *toggle_feed = io.feed("toggle");
 
 void setup()
 {
 
   myStepper.setSpeed(10);  // set the speed at 60 rpm:
-  // Serial.begin(115200); // Starts serial connection //from Servo_ECE112
   Serial.begin(9600);  // initialize the serial port:
   
   while(! Serial); // Waits for serial monitor to open
   
-  // connect to io.adafruit.com
   Serial.print("Connecting to Adafruit IO");
-  io.connect();
-  
-  // set up a message handler for the 'Stepper' feed.
-  // the handleMessage function (defined below)
-  // will be called whenever a message is
-  // received from adafruit io.
+  io.connect();  // connect to io.adafruit.com
+
   toggle_feed->onMessage(toggleControl);
   stepper_feed->onMessage(stepperControl);
   
@@ -82,9 +70,6 @@ void loop() {
  
 }
  
-// this function is called whenever a 'stepper' message
-// is received from Adafruit IO. it was attached to
-// the stepper feed in the setup() function above.
 
 void stepperControl(AdafruitIO_Data *data) {
   
