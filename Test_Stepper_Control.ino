@@ -5,28 +5,9 @@
 #define IO_USERNAME   ""
 #define IO_KEY        ""
 
-/******************************* WIFI **************************************/
-
-// the AdafruitIO_WiFi client will work with the following boards:
-//   - HUZZAH ESP8266 Breakout -> https://www.adafruit.com/products/2471
-//   - Feather HUZZAH ESP8266 -> https://www.adafruit.com/products/2821
-//   - Feather HUZZAH ESP32 -> https://www.adafruit.com/product/3405
-//   - Feather M0 WiFi -> https://www.adafruit.com/products/3010
-//   - Feather WICED -> https://www.adafruit.com/products/3056
-//   - Adafruit PyPortal -> https://www.adafruit.com/product/4116
-//   - Adafruit Metro M4 Express AirLift Lite -> https://www.adafruit.com/product/4000
-//   - Adafruit AirLift Breakout -> https://www.adafruit.com/product/4201
-
 #define WIFI_SSID   "CenturyLink7376_5G"
 #define WIFI_PASS   "bf8d8ha73f64f"
 
-// uncomment the following line if you are using airlift
-// #define USE_AIRLIFT
-
-// uncomment the following line if you are using winc1500
-// #define USE_WINC1500
-
-// comment out the following lines if you are using fona or ethernet
 #include "AdafruitIO_WiFi.h"
 
 #if defined(USE_AIRLIFT) || defined(ADAFRUIT_METRO_M4_AIRLIFT_LITE)
@@ -43,42 +24,16 @@
 #else
   AdafruitIO_WiFi io(IO_USERNAME, IO_KEY, WIFI_SSID, WIFI_PASS);
 #endif
-/******************************* FONA **************************************/
-
-// the AdafruitIO_FONA client will work with the following boards:
-//   - Feather 32u4 FONA -> https://www.adafruit.com/product/3027
-
-// uncomment the following two lines for 32u4 FONA,
-// and comment out the AdafruitIO_WiFi client in the WIFI section
-// #include "AdafruitIO_FONA.h"
-// AdafruitIO_FONA io(IO_USERNAME, IO_KEY);
-
-/**************************** ETHERNET ************************************/
-
-// the AdafruitIO_Ethernet client will work with the following boards:
-//   - Ethernet FeatherWing -> https://www.adafruit.com/products/3201
-
-// uncomment the following two lines for ethernet,
-// and comment out the AdafruitIO_WiFi client in the WIFI section
-// #include "AdafruitIO_Ethernet.h"
-// AdafruitIO_Ethernet io(IO_USERNAME, IO_KEY);
 
  
 //#include "config.h" // Configures WiFi connection. Edit for your Network settings. 
 
-/* For Time Scheduled Servings
-#include "time.h" 
-const char* ntpServer = "pool.ntp.org"; 
-const long  gmtOffset_sec = 3600;
-const int   daylightOffset_sec = 3600;
-*/
+
 const int   MAX_SERVING = 200; // make max serving corresponsd to the size of average bowl?
 
 const int stepsPerRevolution = 2048;  // change this to fit the number of steps per revolution
 // for your motor
 
-int minutes;
-int hours;
 bool toggle = false;
 
 
@@ -122,12 +77,8 @@ void setup()
   }
 
 void loop() { 
-
-  // io.run(); is required for all sketches.
-  // it should always be present at the top of your loop
-  // function. it keeps the client connected to
-  // io.adafruit.com, and processes any incoming data.
-  io.run();
+  
+  io.run(); //runs Adafruit IO
  
 }
  
@@ -147,7 +98,6 @@ void stepperControl(AdafruitIO_Data *data) {
         serving = MAX_SERVING;
     myStepper.step(serving);
   }
-
 
 }
 
