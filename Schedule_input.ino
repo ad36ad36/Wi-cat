@@ -1,23 +1,10 @@
-  // Adafruit IO Publish Example
-//
-// Adafruit invests time and resources providing this open source code.
-// Please support Adafruit and open source hardware by purchasing
-// products from Adafruit!
-//
+//This code was written by Danny W. and 
 // Written by Todd Treece for Adafruit Industries
 // Copyright (c) 2016 Adafruit Industries
 // Licensed under the MIT license.
-//
-// All text above must be included in any redistribution.
 
-/************************** Configuration ***********************************/
+#include "config.h" //config.h contains WiFi networking setup
 
-// edit the config.h tab and enter your Adafruit IO credentials
-// and any additional configuration needed for WiFi, cellular,
-// or ethernet clients.
-#include "config.h"
-
-/************************ Example Starts Here *******************************/
 
 //set up variables to hold user's schedule
 int hours1;
@@ -42,8 +29,8 @@ void setup() {
 
   Serial.print("Connecting to Adafruit IO");
 
-  // connect to io.adafruit.com
-  io.connect();
+  io.connect(); // connect to io.adafruit.com
+
 
   button->onMessage(changeSchedule);
   text->onMessage(handleText);
@@ -60,14 +47,11 @@ void setup() {
 }
 
 void loop() {
-  // io.run(); is required for all sketches.
-  // it should always be present at the top of your loop
-  // function. it keeps the client connected to
-  // io.adafruit.com, and processes any incoming data.
-  io.run();
+  
+  io.run(); //necessary to run A
 
-  //verifying that inputs have been given and saved correctly
-  int sum = hours1 + minutes1;
+  int sum = hours1 + minutes1;   //verifying that inputs have been given and saved correctly
+
   Serial.println(sum);
   
   sum = hours2 + minutes2;
