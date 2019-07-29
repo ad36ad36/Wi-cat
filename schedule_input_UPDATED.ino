@@ -12,9 +12,9 @@ bool change; //boolean to check if a user wants to change schedule
 int indexx = 1; //indexx for different times of the day
 
 // set up all feeds
-AdafruitIO_Feed *button = io.feed("button"); //momentary button   
-AdafruitIO_Feed *test = io.feed("test"); // display 
-AdafruitIO_Feed *text = io.feed("text"); // user input
+AdafruitIO_Feed *schedule_reset_feed = io.feed("schedule-reset");
+AdafruitIO_Feed *schedule_input_feed = io.feed("schedule-input");
+AdafruitIO_Feed *display_feed = io.feed("display");
 
 void setup() {
   // start the serial connection
