@@ -161,7 +161,7 @@ void handleInput (AdafruitIO_Data *data) {
       Serial.println(minutes2);
     }
     if ( ((hours1 >= 0) || (hours2 >= 0)) && ((hours1 <= 24) || (hours2 <= 24)) && 
-         ((minutes1 >= 0) || (minutes2 >=0)) && ((minutes1 >= 59) || (minutes2 <= 59)) {
+         ((minutes1 >= 0) || (minutes2 >=0)) && ((minutes1 >= 59) || (minutes2 <= 59)) ) {
       change = false;
     }
     else {
