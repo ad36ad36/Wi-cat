@@ -39,15 +39,16 @@ AdafruitIO_Feed *display_feed = io.feed("display");
 
 
 void setup() {
+   
+   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+   
    myStepper.setSpeed(10);  // set the speed at 60 rpm:
-  // start the serial connection
-  Serial.begin(115200);
+  
+   Serial.begin(115200);   // start the serial connection
 
-  // wait for serial monitor to open
-  while(! Serial);
-
+   while(! Serial);   // wait for serial monitor to open
+  
   Serial.print("Connecting to Adafruit IO");
-
   io.connect(); // connect to io.adafruit.com
 
   //runs functions based on what feeds receive data
