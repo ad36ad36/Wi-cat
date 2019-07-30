@@ -1,17 +1,27 @@
+//This code was written by Danny W., Ranvir, Adrian, and by Todd Treece// Copyright (c) 2016 Adafruit Industries
+
 #include <Stepper.h>
 #include "time.h"
 #include "config.h"
 
-//This code was written by Danny W., Ranvir, Adrian, 
-// Written by Todd Treece for Adafruit Industries
-// Copyright (c) 2016 Adafruit Industries
-// Licensed under the MIT license.
 
-//initialize all variables
+//initialize global variables for storing user input schedule
 int hours1;
 int minutes1;
 int hours2;
 int minutes2;
+
+//initializes global variables for actual time according to the Global Time Server
+int hours3;
+int minutes3;
+int hours4;
+int minutes4;
+
+//Time variables
+const char* ntpServer = "pool.ntp.org";
+const long  gmtOffset_sec = 3600; //multiply this by an integer based on time zone (ex. GMT -8, our time, do -8*3600)
+const int   daylightOffset_sec = 3600;
+
 bool change; //boolean to check if a user wants to change schedule
 int indexx = 1; //indexx for different times of the day
 const int   MAX_SERVING = 200; // make max serving corresponsd to the size of average bowl?
