@@ -171,7 +171,7 @@ void handleServingSize(AdafruitIO_Data *data) {
   
   if(toggle == true) {
     
-    int serving_size = data->toInt();      // convert the data to intege
+    serving_size = data->toInt();      // convert the data to intege
    
   }
 
