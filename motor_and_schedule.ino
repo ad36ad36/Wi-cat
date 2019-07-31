@@ -1,43 +1,27 @@
+//This code was written by Danny W., Ranvir, Adrian, and by Todd Treece// Copyright (c) 2016 Adafruit Industries
+
 #include <Stepper.h>
-
-//This code was written by Danny W., Ranvir, Adrian, 
-// Written by Todd Treece for Adafruit Industries
-// Copyright (c) 2016 Adafruit Industries
-// Licensed under the MIT license.
+#include "time.h"
+#include "config.h"
 
 
-/************************ Adafruit IO Config *******************************/
-
-// visit io.adafruit.com if you need to create an account,
-// or if you need your Adafruit IO key.
-#define IO_USERNAME   "inukealot"
-#define IO_KEY        "0d8142ca7e074d50adf5781f991ea0fd"
-
-#define WIFI_SSID   "dw123"
-#define WIFI_PASS   "1998meborn"
-
-#include "AdafruitIO_WiFi.h"
-
-#if defined(USE_AIRLIFT) || defined(ADAFRUIT_METRO_M4_AIRLIFT_LITE)
-  // Configure the pins used for the ESP32 connection
-  #if !defined(SPIWIFI_SS) // if the wifi definition isnt in the board variant
-    // Don't change the names of these #define's! they match the variant ones
-    #define SPIWIFI SPI
-    #define SPIWIFI_SS 10  // Chip select pin
-    #define SPIWIFI_ACK 9  // a.k.a BUSY or READY pin
-    #define ESP32_RESETN 6 // Reset pin
-    #define ESP32_GPIO0 -1 // Not connected
-  #endif
-  AdafruitIO_WiFi io(IO_USERNAME, IO_KEY, WIFI_SSID, WIFI_PASS, SPIWIFI_SS, SPIWIFI_ACK, ESP32_RESETN, ESP32_GPIO0, &SPIWIFI);
-#else
-  AdafruitIO_WiFi io(IO_USERNAME, IO_KEY, WIFI_SSID, WIFI_PASS);
-#endif
-
-//initialize all variables
+//initialize global variables for storing user input schedule
 int hours1;
 int minutes1;
-int hours2; 
+int hours2;
 int minutes2;
+
+//initializes global variables for actual time according to the Global Time Server
+int hours3;
+int minutes3;
+int hours4;
+int minutes4;
+
+//Time variables
+const char* ntpServer = "pool.ntp.org";
+const long  gmtOffset_sec = 3600; //multiply this by an integer based on time zone (ex. GMT -8, our time, do -8*3600)
+const int   daylightOffset_sec = 3600;
+
 bool change; //boolean to check if a user wants to change schedule
 int indexx = 1; //indexx for different times of the day
 const int   MAX_SERVING = 200; // make max serving corresponsd to the size of average bowl?
@@ -55,15 +39,16 @@ AdafruitIO_Feed *display_feed = io.feed("display");
 
 
 void setup() {
+   
+   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+   
    myStepper.setSpeed(10);  // set the speed at 60 rpm:
-  // start the serial connection
-  Serial.begin(115200);
+  
+   Serial.begin(115200);   // start the serial connection
 
-  // wait for serial monitor to open
-  while(! Serial);
-
+   while(! Serial);   // wait for serial monitor to open
+  
   Serial.print("Connecting to Adafruit IO");
-
   io.connect(); // connect to io.adafruit.com
 
   //runs functions based on what feeds receive data
@@ -100,9 +85,8 @@ void loop() {
         break;
       }
     }
-    delay(1000);
     display_feed->save("saved");
-    delay(1000);
+    delay(500);
     
     //asks for input for evening schedule
     indexx++;
@@ -114,7 +98,7 @@ void loop() {
       if (change == false)
         break;
     }
-    delay(1000);
+    delay(500);
     display_feed->save("saved");
   }
 
@@ -161,12 +145,11 @@ void handleInput (AdafruitIO_Data *data) {
       Serial.println(hours2);
       Serial.println(minutes2);
     }
-    if ( ((hours1 >= 0) && (hours1 <= 24)) && ((hours2 <= 24) && (hours2 >= 0)) && 
-         ((minutes1 >= 0) && (minutes1 <=59)) && ((minutes2 <= 59) && (minutes2 >= 0)) ) {
+    if ( ((hours1 >= 0) || (hours2 >= 0)) && ((hours1 <= 24) || (hours2 <= 24)) && 
+         ((minutes1 >= 0) || (minutes2 >=0)) && ((minutes1 >= 59) || (minutes2 <= 59)) ) {
       change = false;
     }
     else {
-      delay(1000);
       display_feed->save("Invalid Input");
     }
   }
