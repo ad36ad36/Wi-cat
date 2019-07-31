@@ -40,6 +40,7 @@ AdafruitIO_Feed *schedule_reset_feed = io.feed("schedule-reset");
 AdafruitIO_Feed *schedule_input_feed = io.feed("schedule-input");
 AdafruitIO_Feed *display_feed = io.feed("display");
 
+/***********************************SETUP***********************************************/
 
 void setup() {
    
@@ -73,6 +74,7 @@ void setup() {
  // serving_size_feed->get(); //??????
 }
 
+/***********************************LOOOOOP***********************************************/
 
 void loop() {
   
@@ -107,7 +109,7 @@ void loop() {
     display_feed->save("saved");
   }
 
-  if(scheduletime==realtime) {   //PSUEDOCODE 
+  if(ScheduleCheck()) {    
       StepperControl(serving_size);
    }
   Serial.println(minutes3);
