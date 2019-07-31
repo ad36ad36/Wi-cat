@@ -70,7 +70,7 @@ void setup() {
   // we are connected
   Serial.println();
   Serial.println(io.statusText());
-  serving_size_feed->get(); //??????
+ // serving_size_feed->get(); //??????
 }
 
 
@@ -107,6 +107,9 @@ void loop() {
     display_feed->save("saved");
   }
 
+  if(scheduletime==realtime) {
+      StepperControl(serving_size);
+   }
   Serial.println(minutes3);
   Serial.println(hours3);
 }
@@ -161,7 +164,6 @@ void handleInput (AdafruitIO_Data *data) {
       display_feed->save("Invalid Input");
     }
   }
-  
 }
 
 
@@ -178,14 +180,7 @@ void handleServingSize(AdafruitIO_Data *data) {
 void StepperControl(int serving_size_x) {
   
   if(toggle == true) {
-    
-   // int serving = data->toInt();      // convert the data to intege
-   
-    //if(serving_ < 0)
-        //serving = 0;
-      //else if(serving > MAX_SERVING)
-        //serving = MAX_SERVING;
-    myStepper.step(serving_size_x);
+    myStepper.step(serving_size_x);  //need to scale serving_size_x or serving_size to motor speed etc. 
   }
 
 }
