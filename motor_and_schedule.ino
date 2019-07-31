@@ -71,7 +71,7 @@ if(schedule==actualtime)   //might have to put it into the loop //change slider 
   // we are connected
   Serial.println();
   Serial.println(io.statusText());
-  serving_size_feed->get(); //??????
+  serving_size_feed->get(); //asks IO to resend last value for this feed to IO client
 }
 
 
