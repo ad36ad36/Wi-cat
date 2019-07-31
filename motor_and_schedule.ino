@@ -12,9 +12,10 @@ int hours2;
 int minutes2;
 
 //initializes global variables for actual time according to the Global Time Server
-int ahours;
-int aminutes;
-
+int ahours1;
+int aminutes1;
+int ahours2;
+int aminutes2;
 
 //Time variables
 const char* ntpServer = "pool.ntp.org";
@@ -115,14 +116,14 @@ void loop() {
   Serial.println(hours3);
 }
 
-
-/*************************************FUNCTIONS******************************/
+/**********************************************Change Schedule*****************************************************/
 
 //checks if user has pressed the button indicating a change in schedule
 void changeSchedule (AdafruitIO_Data *data) {
   change = true;
 }
 
+/*************************************************Handling Input*******************************************/
 
 //function to handle schedule_input_feed input and stores values
 void handleInput (AdafruitIO_Data *data) {
@@ -169,6 +170,7 @@ void handleInput (AdafruitIO_Data *data) {
   }
 }
 
+/**************************************************Handle Serving Size******************************/
 
 void handleServingSize(AdafruitIO_Data *data) {
   
@@ -180,6 +182,8 @@ void handleServingSize(AdafruitIO_Data *data) {
 
 }
 
+/**************************************Stepper Control********************************/
+
 void StepperControl(int serving_size_x) {
   
   if(toggle == true) {
@@ -188,6 +192,7 @@ void StepperControl(int serving_size_x) {
 
 }
 
+/****************************************ON/OFF switch*********************************/
 
 //ON/OFF function of device ; determine whether device will run
 void toggleControl(AdafruitIO_Data *data) {  
@@ -205,6 +210,8 @@ void toggleControl(AdafruitIO_Data *data) {
   
 }
 
+/*********************************Print real time*****************************/
+
 void printLocalTime()
 {
   struct tm timeinfo;
@@ -213,13 +220,15 @@ void printLocalTime()
     return;
   }
   Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
-  aminutes1 = timeinfo.tm_min;
+  minutes3 = timeinfo.tm_min;
   hours3 = timeinfo.tm_hour;
 }
 
+/**************************************Schedule Check*****************************/
+
 bool ScheduleCheck(){
   
- if ( (hours1==ahours) && (minutes1==aminutes) && (hours2==ahours) && (minutes2==aminutes)) 
+ if ( (hours1==ahours1) && (minutes1==aminutes1) && (hours2==ahours2) && (minutes2==aminutes2)) 
     return true;
    else
         return false;
