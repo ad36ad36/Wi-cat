@@ -12,10 +12,10 @@ int hours2;
 int minutes2;
 
 //initializes global variables for actual time according to the Global Time Server
-int hours3;
-int minutes3;
-int hours4;
-int minutes4;
+int ahours1;
+int aminutes1;
+int ahours2;
+int aminutes2;
 
 //Time variables
 const char* ntpServer = "pool.ntp.org";
@@ -107,7 +107,7 @@ void loop() {
     display_feed->save("saved");
   }
 
-  if(scheduletime==realtime) {
+  if(scheduletime==realtime) {   //PSUEDOCODE 
       StepperControl(serving_size);
    }
   Serial.println(minutes3);
@@ -212,4 +212,11 @@ void printLocalTime()
   Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
   minutes3 = timeinfo.tm_min;
   hours3 = timeinfo.tm_hour;
+}
+
+void ScheduleCheck(bool ActualTimeisScheduleTime){
+  
+ if (rminutes==)
+   
+   
 }
