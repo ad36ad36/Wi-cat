@@ -25,7 +25,7 @@ const int   daylightOffset_sec = 3600;
 bool change; //boolean to check if a user wants to change schedule
 int indexx = 1; //indexx for different times of the day
 const int   MAX_SERVING = 200; // make max serving corresponsd to the size of average bowl?
-const int stepsPerRevolution = 48;  //specification of motor (found by 360/(stride angle of motor)
+const int stepsPerRevolution = 48;  //specification of motor (found by 360/(stride angle of motor) * gear ratio)
 bool toggle = false; //checks whether the device is "on" or "off"
 
 Stepper myStepper(stepsPerRevolution, 14, 15, 32, 33); //set up stepper motor
