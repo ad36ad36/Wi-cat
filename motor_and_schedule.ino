@@ -190,3 +190,15 @@ void toggleControl(AdafruitIO_Data *data) {
   }
   
 }
+
+void printLocalTime()
+{
+  struct tm timeinfo;
+  if(!getLocalTime(&timeinfo)){
+    Serial.println("Failed to obtain time");
+    return;
+  }
+  Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
+  minutes = timeinfo.tm_min;
+  hours = timeinfo.tm_hour;
+}
