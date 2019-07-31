@@ -12,10 +12,9 @@ int hours2;
 int minutes2;
 
 //initializes global variables for actual time according to the Global Time Server
-int ahours1;
-int aminutes1;
-int ahours2;
-int aminutes2;
+int ahours;
+int aminutes;
+
 
 //Time variables
 const char* ntpServer = "pool.ntp.org";
@@ -214,13 +213,13 @@ void printLocalTime()
     return;
   }
   Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
-  minutes3 = timeinfo.tm_min;
+  aminutes1 = timeinfo.tm_min;
   hours3 = timeinfo.tm_hour;
 }
 
 bool ScheduleCheck(){
   
- if ( (hours1==ahours1) && (minutes1==aminutes1) && (hours2==ahours2) && (minutes2==aminutes2)) 
+ if ( (hours1==ahours) && (minutes1==aminutes) && (hours2==ahours) && (minutes2==aminutes)) 
     return true;
    else
         return false;
