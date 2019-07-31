@@ -28,7 +28,7 @@ int indexx = 1; //indexx for different times of the day
 bool toggle = false; //checks whether the device is "on" or "off"
 //const int   MAX_SERVING = 200; // make max serving corresponsd to the size of average bowl?
 const int stepsPerRevolution = 48;  //specification of motor (found by 360/(stride angle of motor)
-int serving_size = 0;
+int serving_size = 0;  //good practice to initialize non-constant global variables to a reasonable value
 
 
 Stepper myStepper(stepsPerRevolution, 14, 15, 32, 33); //set up stepper motor
@@ -58,10 +58,9 @@ void setup() {
   schedule_reset_feed->onMessage(changeSchedule);
   schedule_input_feed->onMessage(handleInput);
   toggle_feed->onMessage(toggleControl);
-   
-if(schedule==actualtime)   //might have to put it into the loop //change slider to only modify a step variable
-       serving_size_feed->onMessage(StepperControl);
+  serving_size_feed->onMessage(handleServingSize);
 
+   
   // wait for a connection
   while(io.status() < AIO_CONNECTED) {
     Serial.print(".");
@@ -71,7 +70,7 @@ if(schedule==actualtime)   //might have to put it into the loop //change slider 
   // we are connected
   Serial.println();
   Serial.println(io.statusText());
-  serving_size_feed->get(); //asks IO to resend last value for this feed to IO client
+  serving_size_feed->get(); //??????
 }
 
 
@@ -166,8 +165,15 @@ void handleInput (AdafruitIO_Data *data) {
 }
 
 
+void handleServingSize(AdafruitIO_Data *data) {
+  
+  if(toggle == true) {
+    
+    int serving_size = data->toInt();      // convert the data to intege
+   
+  }
 
-
+}
 
 void StepperControl(int serving_size_x) {
   
