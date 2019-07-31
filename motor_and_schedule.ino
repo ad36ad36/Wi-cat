@@ -19,14 +19,17 @@ int minutes4;
 
 //Time variables
 const char* ntpServer = "pool.ntp.org";
-const long  gmtOffset_sec = 3600; //multiply this by an integer based on time zone (ex. GMT -8, our time, do -8*3600)
+const long  gmtOffset_sec = 3600*-8; //multiply this by an integer based on time zone (ex. GMT -8, our time, do -8*3600)
 const int   daylightOffset_sec = 3600;
 
 bool change; //boolean to check if a user wants to change schedule
 int indexx = 1; //indexx for different times of the day
-const int   MAX_SERVING = 200; // make max serving corresponsd to the size of average bowl?
-const int stepsPerRevolution = 48;  //specification of motor (found by 360/(stride angle of motor) * gear ratio)
+
 bool toggle = false; //checks whether the device is "on" or "off"
+//const int   MAX_SERVING = 200; // make max serving corresponsd to the size of average bowl?
+const int stepsPerRevolution = 48;  //specification of motor (found by 360/(stride angle of motor)
+int serving_size = 0;
+
 
 Stepper myStepper(stepsPerRevolution, 14, 15, 32, 33); //set up stepper motor
 
@@ -55,7 +58,9 @@ void setup() {
   schedule_reset_feed->onMessage(changeSchedule);
   schedule_input_feed->onMessage(handleInput);
   toggle_feed->onMessage(toggleControl);
-  serving_size_feed->onMessage(StepperControl);
+   
+if(schedule==actualtime)   //might have to put it into the loop //change slider to only modify a step variable
+       serving_size_feed->onMessage(StepperControl);
 
   // wait for a connection
   while(io.status() < AIO_CONNECTED) {
@@ -66,7 +71,7 @@ void setup() {
   // we are connected
   Serial.println();
   Serial.println(io.statusText());
-  serving_size_feed->get();
+  serving_size_feed->get(); //??????
 }
 
 
@@ -103,6 +108,8 @@ void loop() {
     display_feed->save("saved");
   }
 
+  Serial.println(minutes3);
+  Serial.println(hours3);
 }
 
 
@@ -169,7 +176,7 @@ void StepperControl(AdafruitIO_Data *data) {
         serving = 0;
       else if(serving > MAX_SERVING)
         serving = MAX_SERVING;
-    myStepper .step(serving);
+    myStepper.step(serving);
   }
 
 }
@@ -199,6 +206,6 @@ void printLocalTime()
     return;
   }
   Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
-  minutes = timeinfo.tm_min;
-  hours = timeinfo.tm_hour;
+  minutes3 = timeinfo.tm_min;
+  hours3 = timeinfo.tm_hour;
 }
