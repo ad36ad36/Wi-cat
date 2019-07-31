@@ -85,8 +85,9 @@ void loop() {
         break;
       }
     }
+    delay(1000);
     display_feed->save("saved");
-    delay(500);
+    delay(1000);
     
     //asks for input for evening schedule
     indexx++;
@@ -98,7 +99,7 @@ void loop() {
       if (change == false)
         break;
     }
-    delay(500);
+    delay(1000);
     display_feed->save("saved");
   }
 
@@ -145,11 +146,12 @@ void handleInput (AdafruitIO_Data *data) {
       Serial.println(hours2);
       Serial.println(minutes2);
     }
-    if ( ((hours1 >= 0) || (hours2 >= 0)) && ((hours1 <= 24) || (hours2 <= 24)) && 
-         ((minutes1 >= 0) || (minutes2 >=0)) && ((minutes1 >= 59) || (minutes2 <= 59)) ) {
+    if ( ((hours1 >= 0) && (hours1 <= 24)) && ((hours2 <= 24) && (hours2 >= 0)) && 
+         ((minutes1 >= 0) && (minutes1 <=59)) && ((minutes2 <= 59) && (minutes2 >= 0)) ) {
       change = false;
     }
     else {
+      delay(1000);
       display_feed->save("Invalid Input");
     }
   }
