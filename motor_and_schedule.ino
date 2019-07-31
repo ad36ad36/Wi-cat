@@ -78,7 +78,7 @@ void setup() {
 void loop() {
   
   io.run(); //checks io for any incoming data
-
+  
   //checks if user wants to change schedule
   if (change == true) {
     display_feed->save("What time to feed in the morning?");
@@ -111,8 +111,12 @@ void loop() {
   if(ScheduleCheck()) {    
       StepperControl(serving_size);
    }
+   
+  // FOR TESTING  
+  Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
   Serial.println(aminutes);
   Serial.println(ahours);
+  // END TESTING
 }
 
 /**********************************************Change Schedule*****************************************************/
