@@ -46,8 +46,8 @@ void setup()
   printLocalTime();
 
   //disconnect WiFi as it's no longer needed
-  WiFi.disconnect(true);
-  WiFi.mode(WIFI_OFF);
+  //WiFi.disconnect(true); //For some reason these couple lines keep the ESP32 from connecting to the internet
+  //WiFi.mode(WIFI_OFF);
 }
 
 void loop()
