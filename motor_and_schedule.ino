@@ -112,8 +112,8 @@ void loop() {
   if(ScheduleCheck()) {    
       StepperControl(serving_size);
    }
-  Serial.println(minutes3);
-  Serial.println(hours3);
+  Serial.println(aminutes);
+  Serial.println(ahours);
 }
 
 /**********************************************Change Schedule*****************************************************/
@@ -220,8 +220,8 @@ void printLocalTime()
     return;
   }
   Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
-  minutes3 = timeinfo.tm_min;
-  hours3 = timeinfo.tm_hour;
+  aminutes = timeinfo.tm_min;
+  ahours = timeinfo.tm_hour;
 }
 
 /**************************************Schedule Check*****************************/
