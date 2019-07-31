@@ -214,9 +214,11 @@ void printLocalTime()
   hours3 = timeinfo.tm_hour;
 }
 
-void ScheduleCheck(bool ActualTimeisScheduleTime){
+bool ScheduleCheck(){
   
- if (rminutes==)
-   
+ if ( (hours1==ahours1) && (minutes1==aminutes1) && (hours2==ahours2) && (minutes2==aminutes2)) 
+    return true;
+   else
+        return false;
    
 }
