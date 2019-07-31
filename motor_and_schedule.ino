@@ -12,10 +12,9 @@ int hours2;
 int minutes2;
 
 //initializes global variables for actual time according to the Global Time Server
-int ahours1;
-int aminutes1;
-int ahours2;
-int aminutes2;
+int ahours;
+int aminutes;
+
 
 //Time variables
 const char* ntpServer = "pool.ntp.org";
