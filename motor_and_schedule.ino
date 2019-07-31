@@ -117,6 +117,8 @@ void loop() {
 }
 
 
+/*************************************FUNCTIONS******************************/
+
 //checks if user has pressed the button indicating a change in schedule
 void changeSchedule (AdafruitIO_Data *data) {
   change = true;
