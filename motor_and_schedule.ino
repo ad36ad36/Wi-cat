@@ -166,17 +166,20 @@ void handleInput (AdafruitIO_Data *data) {
 }
 
 
-void StepperControl(AdafruitIO_Data *data) {
+
+
+
+void StepperControl(int serving_size_x) {
   
   if(toggle == true) {
     
-    int serving = data->toInt();      // convert the data to intege
+   // int serving = data->toInt();      // convert the data to intege
    
-    if(serving < 0)
-        serving = 0;
-      else if(serving > MAX_SERVING)
-        serving = MAX_SERVING;
-    myStepper.step(serving);
+    //if(serving_ < 0)
+        //serving = 0;
+      //else if(serving > MAX_SERVING)
+        //serving = MAX_SERVING;
+    myStepper.step(serving_size_x);
   }
 
 }
