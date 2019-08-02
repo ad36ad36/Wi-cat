@@ -43,6 +43,8 @@ AdafruitIO_Feed *display_feed = io.feed("display");
 
 void setup() {
    
+   Serial.begin(115200);   // start the serial connection
+
    //connect to WiFi
    Serial.printf("Connecting to %s ", WIFI_SSID);
    WiFi.begin(WIFI_SSID, WIFI_PASS);
@@ -57,7 +59,6 @@ void setup() {
    
    myStepper.setSpeed(10);  // set the speed at 60 rpm:
   
-   Serial.begin(115200);   // start the serial connection
 
    while(! Serial);   // wait for serial monitor to open
   
@@ -119,7 +120,7 @@ void loop() {
   }
 
   printLocalTime();
-  Serial.println("Test: ahours: " +ahours+ "aminutes: "+aminutes);
+  Serial.println("Test: ahours: " +ahours+ "aminutes: "+aminutes); //for testing
   if(ScheduleCheck()) {    
       StepperControl(serving_size);
    }
@@ -247,3 +248,5 @@ bool ScheduleCheck(){
     return false;
    
 }
+
+void 
