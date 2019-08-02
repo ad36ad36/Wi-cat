@@ -26,7 +26,7 @@ int indexx = 1; //indexx for different times of the day
 
 bool toggle = false; //checks whether the device is "on" or "off"
 //const int   MAX_SERVING = 200; // make max serving corresponsd to the size of average bowl?
-const int stepsPerRevolution = 48;  //specification of motor (found by 360/(stride angle of motor)
+const int stepsPerRevolution = 2048;  //specification of motor (found by 360/(stride angle of motor)
 int serving_size = 0;  //good practice to initialize non-constant global variables to a reasonable value
 
 
