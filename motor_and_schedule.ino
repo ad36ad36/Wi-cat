@@ -108,6 +108,7 @@ void loop() {
     display_feed->save("saved");
   }
 
+  printLocalTime();
   if(ScheduleCheck()) {    
       StepperControl(serving_size);
    }
@@ -231,9 +232,9 @@ void printLocalTime()
 
 bool ScheduleCheck(){
   
- if ( (hours1==ahours1) && (minutes1==aminutes1) && (hours2==ahours2) && (minutes2==aminutes2)) 
+ if ( ((hours1==ahours) && (minutes1==aminutes)) || ((hours2==ahours) && (minutes2==aminutes)) ) 
     return true;
    else
-        return false;
+    return false;
    
 }
