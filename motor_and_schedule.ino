@@ -119,14 +119,13 @@ void loop() {
   }
 
   printLocalTime();
+  Serial.println("Test: ahours: " +ahours+ "aminutes: "+aminutes);
   if(ScheduleCheck()) {    
       StepperControl(serving_size);
    }
    
-  // FOR TESTING  
-  //Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
-  Serial.println(aminutes);
-  Serial.println(ahours);
+ 
+  
   // END TESTING
 }
 
