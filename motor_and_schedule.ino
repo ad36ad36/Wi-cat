@@ -43,7 +43,17 @@ AdafruitIO_Feed *display_feed = io.feed("display");
 
 void setup() {
    
+   //connect to WiFi
+   Serial.printf("Connecting to %s ", WIFI_SSID);
+   WiFi.begin(WIFI_SSID, WIFI_PASS);
+   while (WiFi.status() != WL_CONNECTED) {
+      delay(500);
+      Serial.print(".");
+   }
+   Serial.println(" CONNECTED");
+   
    configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+   printLocalTime();
    
    myStepper.setSpeed(10);  // set the speed at 60 rpm:
   
@@ -114,7 +124,7 @@ void loop() {
    }
    
   // FOR TESTING  
-  Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
+  //Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
   Serial.println(aminutes);
   Serial.println(ahours);
   // END TESTING
