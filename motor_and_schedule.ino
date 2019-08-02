@@ -126,9 +126,6 @@ void loop() {
       StepperControl(serving_size);
    }
    
- 
-  
-  // END TESTING
 }
 
 /**********************************************Change Schedule*****************************************************/
