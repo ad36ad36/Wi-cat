@@ -244,11 +244,8 @@ void printLocalTime()
 
 bool ScheduleCheck(){
   
- if ( ((hours1==ahours) && (minutes1==aminutes)) || ((hours2==ahours) && (minutes2==aminutes))  ) 
+ if ( ((hours1==ahours) && (minutes1==aminutes)) || ((hours2==ahours) && (minutes2==aminutes)) || (aseconds==0)) 
     return true;
    else
     return false;
-   
-   if (aseconds>0)
-      return false;
 }
