@@ -14,6 +14,7 @@ int minutes2;
 //initializes global variables for actual time according to the Global Time Server
 int ahours;
 int aminutes;
+int aseconds;
 
 
 //Time variables
@@ -201,7 +202,7 @@ void handleServingSize(AdafruitIO_Data *data) {
 void StepperControl(int serving_size_x) {
   
   if(toggle == true) {
-    myStepper.step(serving_size_x);  //need to scale serving_size_x or serving_size to motor speed etc. 
+    myStepper.step(serving_size_x*stepsPerRevolution);  //need to scale serving_size_x or serving_size to motor speed etc. 
   }
 
 }
@@ -236,17 +237,18 @@ void printLocalTime()
   Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
   aminutes = timeinfo.tm_min;
   ahours = timeinfo.tm_hour;
+  aseconds=timeinfo.tm_sec;
 }
 
 /**************************************Schedule Check*****************************/
 
 bool ScheduleCheck(){
   
- if ( ((hours1==ahours) && (minutes1==aminutes)) || ((hours2==ahours) && (minutes2==aminutes)) ) 
+ if ( ((hours1==ahours) && (minutes1==aminutes)) || ((hours2==ahours) && (minutes2==aminutes))  ) 
     return true;
    else
     return false;
    
+   if (aseconds>0)
+      return false;
 }
-
-void 
