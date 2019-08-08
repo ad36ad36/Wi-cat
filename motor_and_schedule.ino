@@ -121,10 +121,11 @@ void loop() {
   }
 
   printLocalTime();
-  Serial.println("Test: ahours: " +ahours+ "aminutes: "+aminutes); //for testing
+  Serial.println("Test: ahours: " +ahours+ " aminutes: " +aminutes+ " aseconds: "); //for testing
   if(ScheduleCheck()) {    
       StepperControl(serving_size);
    }
+   delay(1000);
    
 }
 
@@ -199,7 +200,8 @@ void handleServingSize(AdafruitIO_Data *data) {
 void StepperControl(int serving_size_x) {
   
   if(toggle == true) {
-    myStepper.step(serving_size_x*stepsPerRevolution);  //need to scale serving_size_x or serving_size to motor speed etc. 
+    myStepper.step(serving_size_x*stepsPerRevolution);  //need to scale serving_size_x or serving_size to motor speed etc.
+    Serial.println("step");
   }
 
 }
@@ -241,7 +243,7 @@ void printLocalTime()
 
 bool ScheduleCheck(){
   
- if ( ((hours1==ahours) && (minutes1==aminutes)) || ((hours2==ahours) && (minutes2==aminutes)) || (aseconds==0)) 
+ if ( (((hours1==ahours) && (minutes1==aminutes)) || ((hours2==ahours) && (minutes2==aminutes))) && (aseconds==0) ) 
     return true;
    else
     return false;
