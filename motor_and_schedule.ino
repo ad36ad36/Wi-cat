@@ -27,7 +27,7 @@ int indexx = 1; //indexx for different times of the day
 
 bool toggle = false; //checks whether the device is "on" or "off"
 //const int   MAX_SERVING = 200; // make max serving corresponsd to the size of average bowl?
-const int stepsPerRevolution = 2048;  //specification of motor (found by 360/(stride angle of motor)
+const int stepsPerRevolution = 200;  //specification of motor (found by 360/(stride angle of motor)
 int serving_size = 0;  //good practice to initialize non-constant global variables to a reasonable value
 
 
@@ -58,7 +58,7 @@ void setup() {
    configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
    printLocalTime();
    
-   myStepper.setSpeed(10);  // set the speed at 60 rpm:
+   myStepper.setSpeed(60);  // set the speed of the motor
   
 
    while(! Serial);   // wait for serial monitor to open
@@ -118,10 +118,13 @@ void loop() {
     }
     delay(1000);
     display_feed->save("saved");
+    indexx = 1;
   }
 
   printLocalTime();
-  Serial.println("Test: ahours: " +ahours+ " aminutes: " +aminutes+ " aseconds: "); //for testing
+  Serial.println((String)"Test: ahours: " +ahours+ " aminutes: " +aminutes+ " aseconds: " +aseconds); //check real time
+  Serial.println((String)"Test: hours1: " +hours1+ " minutes1: " +minutes1); //check input one
+  Serial.println((String)"Test: hours2: " +hours2+ " minutes2: " +minutes2); //check input two
   if(ScheduleCheck()) {    
       StepperControl(serving_size);
    }
