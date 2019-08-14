@@ -4,6 +4,10 @@
 #include "time.h"
 #include "config.h"
 
+bool buzzerstopper = 0;
+bool buzzerOn = 1;
+bool buzzerState = 0;
+unsigned int buzzTimer;
 
 //initialize global variables for storing user input schedule
 int hours1;
@@ -21,6 +25,8 @@ int aseconds;
 const char* ntpServer = "pool.ntp.org";
 const long  gmtOffset_sec = 3600*-8; //multiply this by an integer based on time zone (ex. GMT -8, our time, do -8*3600)
 const int   daylightOffset_sec = 3600;
+const int buzzer = 16; // GPIO pin for active buzzer
+
 
 bool change; //boolean to check if a user wants to change schedule
 int indexx = 1; //indexx for different times of the day
@@ -43,7 +49,7 @@ AdafruitIO_Feed *display_feed = io.feed("display");
 /***********************************SETUP***********************************************/
 
 void setup() {
-   
+   pinMode(buzzer,OUTPUT); //initialize the buzzer pin as an output
    Serial.begin(115200);   // start the serial connection
 
    //connect to WiFi
@@ -125,10 +131,14 @@ void loop() {
   Serial.println((String)"Test: ahours: " +ahours+ " aminutes: " +aminutes+ " aseconds: " +aseconds); //check real time
   Serial.println((String)"Test: hours1: " +hours1+ " minutes1: " +minutes1); //check input one
   Serial.println((String)"Test: hours2: " +hours2+ " minutes2: " +minutes2); //check input two
-  if(ScheduleCheck()) {    
+  
+if(ScheduleCheck()) {    
       StepperControl(serving_size);
    }
-   delay(1000);
+   
+if(buzzerState) {
+   Buzz();
+}
    
 }
 
@@ -201,8 +211,9 @@ void handleServingSize(AdafruitIO_Data *data) {
 /**************************************Stepper Control********************************/
 
 void StepperControl(int serving_size_x) {
-  
   if(toggle == true) {
+    buzzerState = 1;
+    buzzTimer = millis() + 10*1000;
     myStepper.step(serving_size_x*stepsPerRevolution);  //need to scale serving_size_x or serving_size to motor speed etc.
     Serial.println("step");
   }
@@ -250,4 +261,16 @@ bool ScheduleCheck(){
     return true;
    else
     return false;
+}
+
+
+void Buzz(){ //Buzz is called in the StepperControl function
+   //output a frequency
+   if (millis() < buzzTimer) {
+      digitalWrite(buzzer,buzzerOn); 
+         if ((millis() % 5) < 1) {      //delay(5);  //wait for 1ms
+            buzzerOn = !buzzerOn;      
+         }
+   }
+   else buzzerState = 0;
 }
