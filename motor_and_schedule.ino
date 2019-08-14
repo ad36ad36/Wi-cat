@@ -1,6 +1,7 @@
 //This code was written by Danny W., Ranvir, Adrian, and by Todd Treece// Copyright (c) 2016 Adafruit Industries
-
-#include <Stepper.h>
+#include <Arduino.h>
+#include "BasicStepperDriver.h"
+//#include <Stepper.h>
 #include "time.h"
 #include "config.h"
 
@@ -64,7 +65,8 @@ void setup() {
    configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
    printLocalTime();
    
-   myStepper.setSpeed(60);  // set the speed of the motor
+   BasicStepperDriver stepper(MOTOR_STEPS, DIR, STEP);
+   //myStepper.setSpeed(60);  // set the speed of the motor
   
 
    while(! Serial);   // wait for serial monitor to open
@@ -208,7 +210,7 @@ void handleServingSize(AdafruitIO_Data *data) {
 
 }
 
-/**************************************Stepper Control********************************/
+/**************************************Stepper Control 2.0********************************/
 
 void StepperControl(int serving_size_x) {
   if(toggle == true) {
@@ -220,7 +222,19 @@ void StepperControl(int serving_size_x) {
 
 }
 
-/****************************************ON/OFF switch*********************************/
+/**************************************Stepper Control********************************
+
+void StepperControl(int serving_size_x) {
+  if(toggle == true) {
+    buzzerState = 1;
+    buzzTimer = millis() + 10*1000;
+    myStepper.step(serving_size_x*stepsPerRevolution);  //need to scale serving_size_x or serving_size to motor speed etc.
+    Serial.println("step");
+  }
+
+}
+
+****************************************ON/OFF switch*********************************/
 
 //ON/OFF function of device ; determine whether device will run
 void toggleControl(AdafruitIO_Data *data) {  
