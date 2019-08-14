@@ -263,6 +263,7 @@ bool ScheduleCheck(){
     return false;
 }
 
+/**************************************Buzz*****************************/
 
 void Buzz(){ //Buzz is called in the StepperControl function
    //output a frequency
