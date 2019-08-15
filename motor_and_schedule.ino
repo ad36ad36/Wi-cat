@@ -8,7 +8,7 @@
 bool buzzerstopper = 0;
 bool buzzerOn = 1;
 bool buzzerState = 0;
-unsigned int buzzTimer;
+unsigned long buzzTimer;
 
 //initialize global variables for storing user input schedule
 int hours1;
@@ -27,6 +27,7 @@ const char* ntpServer = "pool.ntp.org";
 const long  gmtOffset_sec = 3600*-8; //multiply this by an integer based on time zone (ex. GMT -8, our time, do -8*3600)
 const int   daylightOffset_sec = 3600;
 const int buzzer = 16; // GPIO pin for active buzzer
+const int ledPin = 17; // GPIO pin for ON/OFF LED
 
 
 bool change; //boolean to check if a user wants to change schedule
@@ -51,7 +52,8 @@ AdafruitIO_Feed *display_feed = io.feed("display");
 /***********************************SETUP***********************************************/
 
 void setup() {
-   pinMode(buzzer,OUTPUT); //initialize the buzzer pin as an output
+   pinMode(buzzer, OUTPUT); //initialize the buzzer pin as an output
+   pinMode(ledPin, OUTPUT); //initialize LED pin as output
    Serial.begin(115200);   // start the serial connection
 
    //connect to WiFi
@@ -136,13 +138,13 @@ void loop() {
   Serial.println((String)"Test: hours1: " +hours1+ " minutes1: " +minutes1); //check input one
   Serial.println((String)"Test: hours2: " +hours2+ " minutes2: " +minutes2); //check input two
   
-if(ScheduleCheck()) {    
-      StepperControl(serving_size);
+   if(ScheduleCheck()) {    
+         StepperControl(serving_size);
+      }
+
+   if(buzzerState) {
+      Buzz();
    }
-   
-if(buzzerState) {
-   Buzz();
-}
    
 }
 
@@ -245,10 +247,12 @@ void toggleControl(AdafruitIO_Data *data) {
   String toggleString = data->toString();
   if(toggleString == String("ON")) {
     Serial.println("ON");
+    digitalWrite(ledPin, HIGH);
     toggle = true;
   } 
   else {
     Serial.println("OFF");
+    digitalWrite(ledPin, LOW);
     toggle = false;
   }
   
@@ -289,5 +293,6 @@ void Buzz(){ //Buzz is called in the StepperControl function
             buzzerOn = !buzzerOn;      
          }
    }
-   else buzzerState = 0;
+   else 
+      buzzerState = 0;
 }
