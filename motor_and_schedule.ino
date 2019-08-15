@@ -8,6 +8,7 @@
 //Pin variables
 const int ledPin = 17; // GPIO pin for ON/OFF LED
 const int buzzer = 16; // GPIO pin for active buzzer
+//Pins 15 and 33 are used for motor
 
 
 //Buzzer variables
