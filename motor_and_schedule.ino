@@ -5,9 +5,17 @@
 #include "time.h"
 #include "config.h"
 
+//Pin variables
+const int ledPin = 17; // GPIO pin for ON/OFF LED
+const int buzzer = 16; // GPIO pin for active buzzer
+//Stepper myStepper(stepsPerRevolution, 14, 15, 32, 33); //set up stepper motor
+BasicStepperDriver myStepper(stepsPerRevolution, 33, 15);
+
+//Buzzer variables
 bool buzzerOn = 1;
 bool buzzerState = 0;
 unsigned long buzzTimer;
+
 
 //initialize global variables for storing user input schedule
 int hours1;
@@ -20,26 +28,18 @@ int ahours;
 int aminutes;
 int aseconds;
 
-
 //Time variables
 const char* ntpServer = "pool.ntp.org";
 const long  gmtOffset_sec = 3600*-8; //multiply this by an integer based on time zone (ex. GMT -8, our time, do -8*3600)
 const int   daylightOffset_sec = 3600;
-const int buzzer = 16; // GPIO pin for active buzzer
-const int ledPin = 17; // GPIO pin for ON/OFF LED
-
 
 bool change; //boolean to check if a user wants to change schedule
 int indexx = 1; //indexx for different times of the day
 
-bool toggle = false; //checks whether the device is "on" or "off"
-//const int   MAX_SERVING = 200; // make max serving corresponsd to the size of average bowl?
+//Motor Variables
+bool toggle = false; //checks whether the device is "on" or "off" ???????????????????
 const int stepsPerRevolution = 200;  //specification of motor (found by 360/(stride angle of motor)
 int serving_size = 0;  //good practice to initialize non-constant global variables to a reasonable value
-
-
-//Stepper myStepper(stepsPerRevolution, 14, 15, 32, 33); //set up stepper motor
-BasicStepperDriver myStepper(stepsPerRevolution, 33, 15);
 
 //set up all feeds for Adafruit IO
 AdafruitIO_Feed *serving_size_feed = io.feed("serving-size"); 
