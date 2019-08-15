@@ -8,7 +8,7 @@
 //Pin variables
 const int ledPin = 17; // GPIO pin for ON/OFF LED
 const int buzzer = 16; // GPIO pin for active buzzer
-//Pins 15 (STEP) and 33 (DIR) are used for motor
+//Pins 33 (STEP) and 15 (DIR) are used for motor
 
 
 //Buzzer variables
@@ -41,7 +41,7 @@ bool toggle = false; //checks whether the device is "on" or "off" ??????????????
 const int stepsPerRevolution = 200;  //specification of motor (found by 360/(stride angle of motor)
 int serving_size = 0;  //good practice to initialize non-constant global variables to a reasonable value
 //Stepper myStepper(stepsPerRevolution, 14, 15, 32, 33); //set up stepper motor
-BasicStepperDriver myStepper(stepsPerRevolution, 33, 15);
+BasicStepperDriver myStepper(stepsPerRevolution, 15, 33);
 
 //set up all feeds for Adafruit IO
 AdafruitIO_Feed *serving_size_feed = io.feed("serving-size"); 
@@ -135,9 +135,9 @@ void loop() {
   }
 
   printLocalTime();
-  Serial.println((String)"Test: ahours: " +ahours+ " aminutes: " +aminutes+ " aseconds: " +aseconds); //check real time
-  Serial.println((String)"Test: hours1: " +hours1+ " minutes1: " +minutes1); //check input one
-  Serial.println((String)"Test: hours2: " +hours2+ " minutes2: " +minutes2); //check input two
+  //Serial.println((String)"Test: ahours: " +ahours+ " aminutes: " +aminutes+ " aseconds: " +aseconds); //check real time
+  //Serial.println((String)"Test: hours1: " +hours1+ " minutes1: " +minutes1); //check input one
+  //Serial.println((String)"Test: hours2: " +hours2+ " minutes2: " +minutes2); //check input two
   
    if(ScheduleCheck()) {    
          StepperControl(serving_size);
