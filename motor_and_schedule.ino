@@ -5,7 +5,6 @@
 #include "time.h"
 #include "config.h"
 
-bool buzzerstopper = 0;
 bool buzzerOn = 1;
 bool buzzerState = 0;
 unsigned long buzzTimer;
@@ -293,6 +292,8 @@ void Buzz(){ //Buzz is called in the StepperControl function
             buzzerOn = !buzzerOn;      
          }
    }
-   else 
+   else{ 
       buzzerState = 0;
+      buzzerOn = 0;
+   }
 }
