@@ -38,7 +38,8 @@ const int stepsPerRevolution = 200;  //specification of motor (found by 360/(str
 int serving_size = 0;  //good practice to initialize non-constant global variables to a reasonable value
 
 
-Stepper myStepper(stepsPerRevolution, 14, 15, 32, 33); //set up stepper motor
+//Stepper myStepper(stepsPerRevolution, 14, 15, 32, 33); //set up stepper motor
+BasicStepperDriver myStepper(stepsPerRevolution, 33, 15);
 
 //set up all feeds for Adafruit IO
 AdafruitIO_Feed *serving_size_feed = io.feed("serving-size"); 
@@ -65,9 +66,10 @@ void setup() {
    configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
    printLocalTime();
    
-   BasicStepperDriver stepper(MOTOR_STEPS, DIR, STEP);
+
    //myStepper.setSpeed(60);  // set the speed of the motor
-  
+   myStepper.begin(20, 1); //set the speed and microstepping respectively
+   
 
    while(! Serial);   // wait for serial monitor to open
   
