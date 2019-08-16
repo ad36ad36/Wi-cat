@@ -53,7 +53,7 @@ void setup() {
    Serial.begin(115200);   // start the serial connection
 
    //connect to WiFi
-   Serial.printf("Connecting to %s ", WIFI_SSID);
+   //Serial.printf("Connecting to %s ", WIFI_SSID);
    WiFi.begin(WIFI_SSID, WIFI_PASS);
    
    /*
@@ -85,7 +85,7 @@ void setup() {
   manual_motor_feed->onMessage(motorTest); //
 
   if (io.status() == AIO_CONNECTED){
-         display_feed->save("You are connected to Adafruit IO. Congratulations!");
+         display_feed->save("You are connected to Adafruit IO.");
   }
 
  
