@@ -18,15 +18,10 @@ unsigned long buzzTimer;
 
 
 //initialize global variables for storing user input schedule
-int hours1;
-int minutes1;
-int hours2;
-int minutes2;
+int hours1, minutes1, hours2, minutes2;
 
 //initializes global variables for actual time according to the Global Time Server
-int ahours;
-int aminutes;
-int aseconds;
+int ahours, aminutes, aseconds;
 
 //Time variables
 const char* ntpServer = "pool.ntp.org";
@@ -49,7 +44,7 @@ AdafruitIO_Feed *toggle_feed = io.feed("toggle");
 AdafruitIO_Feed *schedule_reset_feed = io.feed("schedule-reset");
 AdafruitIO_Feed *schedule_input_feed = io.feed("schedule-input");
 AdafruitIO_Feed *display_feed = io.feed("display");
-AdafruitIO_Feed *display_feed = io.feed("manualmotor");
+AdafruitIO_Feed *manual_motor_feed = io.feed("manual-motor");
 
 
 /***********************************SETUP***********************************************/
@@ -86,7 +81,7 @@ void setup() {
   schedule_input_feed->onMessage(handleInput);
   toggle_feed->onMessage(toggleControl);
   serving_size_feed->onMessage(handleServingSize);
-  manual_motor_feed->onMessage(motorTest);
+  manual_motor_feed->onMessage(motorTest); //
 
    
   // wait for a connection
@@ -185,15 +180,13 @@ void handleInput (AdafruitIO_Data *data) {
     if (indexx == 1) {
       hours1 = atoi(strings[1]);
       minutes1 = atoi(strings[2]);
-      Serial.println(hours1);
-      Serial.println(minutes1);
+      Serial.println((String) "Morning schedule: " hours1+":"minutes1);;
     }
     //stores time for evening schedule
     else if (indexx == 2) {
       hours2 = atoi(strings[1]);
       minutes2 = atoi(strings[2]);
-      Serial.println(hours2);
-      Serial.println(minutes2);
+      Serial.println((String) "Evening schedule: " hours2+":"minutes2);
     }
     if ( ((hours1 >= 0) && (hours1 <= 24)) && ((hours2 <= 24) && (hours2 >= 0)) && 
          ((minutes1 >= 0) && (minutes1 <=59)) && ((minutes2 <= 59) && (minutes2 >= 0)) ) {
