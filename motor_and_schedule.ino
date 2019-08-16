@@ -10,12 +10,10 @@ const int ledPin = 17; // GPIO pin for ON/OFF LED
 const int buzzer = 16; // GPIO pin for active buzzer
 //Pins 33 (STEP) and 15 (DIR) are used for motor
 
-
 //Buzzer variables
 bool buzzerOn = 1;
 bool buzzerState = 0;
 unsigned long buzzTimer;
-
 
 //initialize global variables for storing user input schedule
 int hours1, minutes1, hours2, minutes2;
@@ -57,11 +55,14 @@ void setup() {
    //connect to WiFi
    Serial.printf("Connecting to %s ", WIFI_SSID);
    WiFi.begin(WIFI_SSID, WIFI_PASS);
+   
+   /*
    while (WiFi.status() != WL_CONNECTED) {
-      //delay(500);
+      delay(500);
       Serial.print(".");
    }
-   Serial.println(" CONNECTED");
+   //Serial.println(" CONNECTED");
+   */
    
    configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
    printLocalTime();
@@ -83,16 +84,19 @@ void setup() {
   serving_size_feed->onMessage(handleServingSize);
   manual_motor_feed->onMessage(motorTest); //
 
-   
-  // wait for a connection
-  while(io.status() < AIO_CONNECTED) {
-    Serial.print(".");
-    //delay(500);
+  if (io.status() == AIO_CONNECTED){
+         display_feed->save("You are connected to Adafruit IO. Congratulations!");
   }
 
-  // we are connected
+ 
+  /* 
+  while(io.status() < AIO_CONNECTED){  
+    Serial.print(".");
+    //delay(500);
+  }                  
   Serial.println();
   Serial.println(io.statusText());
+   */
  // serving_size_feed->get(); //??????
 }
 
