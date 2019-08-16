@@ -49,6 +49,8 @@ AdafruitIO_Feed *toggle_feed = io.feed("toggle");
 AdafruitIO_Feed *schedule_reset_feed = io.feed("schedule-reset");
 AdafruitIO_Feed *schedule_input_feed = io.feed("schedule-input");
 AdafruitIO_Feed *display_feed = io.feed("display");
+AdafruitIO_Feed *display_feed = io.feed("manualmotor");
+
 
 /***********************************SETUP***********************************************/
 
@@ -84,6 +86,7 @@ void setup() {
   schedule_input_feed->onMessage(handleInput);
   toggle_feed->onMessage(toggleControl);
   serving_size_feed->onMessage(handleServingSize);
+  manual_motor_feed->onMessage(motorTest);
 
    
   // wait for a connection
@@ -252,7 +255,7 @@ void toggleControl(AdafruitIO_Data *data) {
   String toggleString = data->toString();
   if(toggleString == String("ON")) {
     Serial.println("ON");
-    digitalWrite(ledPin, HIGH);
+    digitalWrite(ledPin, HIGH); //for LED
     toggle = true;
   } 
   else {
@@ -302,4 +305,20 @@ void Buzz(){ //Buzz is called in the StepperControl function
       buzzerState = 0;
       buzzerOn = 0;
    }
+}
+
+void motorTest(AdafruitIO_Data *data, int serving_size){
+   
+     // handle the toggle on the Adafruit IO Dashboard
+  String toggleString = data->toString();
+  if(toggleString == String("ON")) {
+  Serial.println("Motor test running!");
+  StepperControl(serving_size);
+  } 
+  else {
+    Serial.println("Motor test is not running");
+ 
+  }
+  
+   
 }
