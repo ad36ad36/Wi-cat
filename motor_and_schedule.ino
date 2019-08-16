@@ -63,7 +63,7 @@ void setup() {
    Serial.printf("Connecting to %s ", WIFI_SSID);
    WiFi.begin(WIFI_SSID, WIFI_PASS);
    while (WiFi.status() != WL_CONNECTED) {
-      delay(500);
+      //delay(500);
       Serial.print(".");
    }
    Serial.println(" CONNECTED");
@@ -73,7 +73,7 @@ void setup() {
    
 
    //myStepper.setSpeed(60);  // set the speed of the motor
-   myStepper.begin(20, 1); //set the speed and microstepping respectively
+   myStepper.begin(20, 1); //set the speed and microstepping respectively // maybe 10?
    
 
    while(! Serial);   // wait for serial monitor to open
@@ -92,7 +92,7 @@ void setup() {
   // wait for a connection
   while(io.status() < AIO_CONNECTED) {
     Serial.print(".");
-    delay(500);
+    //delay(500);
   }
 
   // we are connected
@@ -303,11 +303,11 @@ void Buzz(){ //Buzz is called in the StepperControl function
    }
    else{ 
       buzzerState = 0;
-      buzzerOn = 0;
+      digitalWrite(buzzer, LOW); 
    }
 }
 
-void motorTest(AdafruitIO_Data *data, int serving_size){
+void motorTest(AdafruitIO_Data *data){
    
      // handle the toggle on the Adafruit IO Dashboard
   String toggleString = data->toString();
