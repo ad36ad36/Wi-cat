@@ -84,19 +84,13 @@ void setup() {
   serving_size_feed->onMessage(handleServingSize);
   manual_motor_feed->onMessage(motorTest); //
 
-  if (io.status() == AIO_CONNECTED){
-         display_feed->save("You are connected to Adafruit IO.");
-  }
-
  
-  /* 
   while(io.status() < AIO_CONNECTED){  
-    Serial.print(".");
-    //delay(500);
-  }                  
-  Serial.println();
-  Serial.println(io.statusText());
-   */
+    digitalWrite(ledPin, HIGH);
+    delay(500);
+    digitalWrite(ledPin, LOW);
+    delay(500);
+  }    
  // serving_size_feed->get(); //??????
 }
 
