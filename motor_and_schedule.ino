@@ -56,13 +56,15 @@ void setup() {
    //Serial.printf("Connecting to %s ", WIFI_SSID);
    WiFi.begin(WIFI_SSID, WIFI_PASS);
    
-   /*
+   
    while (WiFi.status() != WL_CONNECTED) {
-      delay(500);
-      Serial.print(".");
+       digitalWrite(ledPin, HIGH);
+       delay(250);
+       digitalWrite(ledPin, LOW);
+       delay(250);
    }
    //Serial.println(" CONNECTED");
-   */
+   
    
    configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
    printLocalTime();
@@ -87,9 +89,9 @@ void setup() {
  
   while(io.status() < AIO_CONNECTED){  
     digitalWrite(ledPin, HIGH);
-    delay(500);
+    delay(250);
     digitalWrite(ledPin, LOW);
-    delay(500);
+    delay(250);
   }    
  // serving_size_feed->get(); //??????
 }
