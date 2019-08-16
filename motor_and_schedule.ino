@@ -221,7 +221,11 @@ void StepperControl(int serving_size_x) {
   if(toggle == true) {
     buzzerState = 1;
     buzzTimer = millis() + 10*1000;
-    myStepper.move(serving_size_x*stepsPerRevolution);  //need to scale serving_size_x or serving_size to motor speed etc.
+    myStepper.move(serving_size_x/4);  //need to scale serving_size_x or serving_size to motor speed etc.
+    myStepper.move(-serving_size_x/4));  //need to scale serving_size_x or serving_size to motor speed etc
+    myStepper.move(serving_size_x/4));  //need to scale serving_size_x or serving_size to motor speed etc.
+    myStepper.move(-serving_size_x/4));  //need to scale serving_size_x or serving_size to motor speed etc.
+
     Serial.println("step");
   }
 
