@@ -151,14 +151,14 @@ void loop() {
    
 }
 
-/**********************************************Change Schedule*****************************************************/
+/****************************************Change Schedule*****************************************************/
 
 //checks if user has pressed the button indicating a change in schedule
 void changeSchedule (AdafruitIO_Data *data) {
   change = true;
 }
 
-/*************************************************Handling Input*******************************************/
+/****************************************Handling Input*******************************************/
 
 //function to handle schedule_input_feed input and stores values
 void handleInput (AdafruitIO_Data *data) {
@@ -203,19 +203,15 @@ void handleInput (AdafruitIO_Data *data) {
   }
 }
 
-/**************************************************Handle Serving Size******************************/
+/************************************Handle Serving Size******************************/
 
 void handleServingSize(AdafruitIO_Data *data) {
-  
   if(toggle == true) {
-    
     serving_size = data->toInt();      // convert the data to intege
-   
   }
-
 }
 
-/**************************************Stepper Control 2.0********************************/
+/**********************************Stepper Control 2.0********************************/
 
 void StepperControl(int serving_size_x) {
   if(toggle == true) {
@@ -228,22 +224,10 @@ void StepperControl(int serving_size_x) {
 
     Serial.println("step");
   }
-
 }
 
-/**************************************Stepper Control********************************
 
-void StepperControl(int serving_size_x) {
-  if(toggle == true) {
-    buzzerState = 1;
-    buzzTimer = millis() + 10*1000;
-    myStepper.step(serving_size_x*stepsPerRevolution);  //need to scale serving_size_x or serving_size to motor speed etc.
-    Serial.println("step");
-  }
-
-}
-
-****************************************ON/OFF switch*********************************/
+/*************************************ON/OFF switch*********************************/
 
 //ON/OFF function of device ; determine whether device will run
 void toggleControl(AdafruitIO_Data *data) {  
@@ -278,7 +262,7 @@ void printLocalTime()
   aseconds=timeinfo.tm_sec;
 }
 
-/**************************************Schedule Check*****************************/
+/*********************************Schedule Check*****************************/
 
 bool ScheduleCheck(){
   
@@ -288,7 +272,7 @@ bool ScheduleCheck(){
     return false;
 }
 
-/**************************************Buzz*****************************/
+/**********************************Buzz*****************************/
 
 void Buzz(){ //Buzz is called in the StepperControl function
    //output a frequency
@@ -304,10 +288,12 @@ void Buzz(){ //Buzz is called in the StepperControl function
    }
 }
 
+/*********************************Manual Motor*****************************/
+
+
 void motorTest(AdafruitIO_Data *data){
-   
-     // handle the toggle on the Adafruit IO Dashboard
-  String toggleString = data->toString();
+
+   String toggleString = data->toString();
   if(toggleString == String("ON")) {
   Serial.println("Motor test running!");
   StepperControl(serving_size);
@@ -316,6 +302,18 @@ void motorTest(AdafruitIO_Data *data){
     Serial.println("Motor test is not running");
  
   }
-  
-   
 }
+
+
+/*********************************Stepper Control (OLD VERSION)********************************
+
+void StepperControl(int serving_size_x) {
+  if(toggle == true) {
+    buzzerState = 1;
+    buzzTimer = millis() + 10*1000;
+    myStepper.step(serving_size_x*stepsPerRevolution);  //need to scale serving_size_x or serving_size to motor speed etc.
+    Serial.println("step");
+  }
+} 
+
+***************************************************/
